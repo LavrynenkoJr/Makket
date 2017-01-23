@@ -1,52 +1,45 @@
+import javax.naming.ldap.UnsolicitedNotification;
 import java.util.Random;
 
 public class Main {
 
-
-
-
     static int x = 25;
+
     public static void main(String[] args) {
 
-        Random r = new Random();
+        Bicycle bicycle = new Bicycle();
+        Unicecle unicecle = new Unicecle();
+        Tricycle tricycle = new Tricycle();
 
-        int[][] a = new int[3][];
+        Cycle[] cycles = {bicycle, unicecle, tricycle};
+        Bicycle b = (Bicycle) cycles[0];
+        Unicecle u = (Unicecle) cycles[1];
+        Tricycle t = (Tricycle) cycles[2];
 
-        a[0] = new int[3];
-        a[1] = new int[] {1, 2};
-        a[2] = new int[1];
+        b.balance();
+        u.balance();
 
-        boolean b = true;
+        bicycle.ride();
+        unicecle.ride();
+        tricycle.ride();
 
-        for(int i = 1; i <= 100; i++){
-            System.out.println(i);
-        }
+        //getWheels(bicycle);
+        //getWheels(unicecle);
+        //getWheels(tricycle);
+
+        bicycle.wheels();
+        unicecle.wheels();
+        tricycle.wheels();
 
 
-        int min = 1;
-        int max = 100;
+        //t.balance();
 
-        for (int i=0; i<26; i++){
-            int k = r.nextInt((max)+ min);
-            int n =r.nextInt((max) + min);
-            if (k<n)
-                System.out.println(k + " < " + n);
-            else if(k>n)
-                System.out.println(k + "  > " + n);
-            else
-                System.out.println(k + " = " + n);
-        }
-
-        //boolean b; break
-        int q = 0;
-        for(int i = 1; i<=1000; i++){
-            for (int k =2; k<100; k++){
-                q = i%k;
-                if(q==0&&q!=i){
-                    System.out.println(i);
-                }
-            }
-
-        }
+        //  Tank t34 = new Tank("green", 2, 2, 2);
+       // t34 = null;
+        //System.gc();
     }
+
+   // public static void getWheels(Cycle c){
+     //   c.wheels();
+    //}
 }

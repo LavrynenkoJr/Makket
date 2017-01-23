@@ -6,9 +6,12 @@ public class Tank extends Mashine{
     private int gun;
 
 
+
     public Tank(String color, int weigth, int speed, int gun) {
         super(color, weigth, speed);
         this.gun=gun;
+
+        getSome();
     }
 
     public int getGun() {
@@ -22,5 +25,22 @@ public class Tank extends Mashine{
     @Override
     public String toString() {
         return super.toString()+ "Gun=" + gun;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        System.out.println("finalize");
+
+    }
+
+    private void getSome(String arg){
+        System.out.println("first " + arg);
+    }
+
+    private void getSome(String... arg){
+        for (String s: arg){
+            System.out.println("second" + s);
+        }
     }
 }
