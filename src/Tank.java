@@ -1,18 +1,21 @@
 /**
  * Created by java-1-04 on 18.01.2017.
  */
-public class Tank extends Mashine{
+public class Tank {
 
     private int gun;
 
 
+    public Tank() {
 
-    public Tank(String color, int weigth, int speed, int gun) {
+    }
+
+    /*public Tank(String color, int weigth, int speed, int gun) {
         super(color, weigth, speed);
         this.gun=gun;
 
         getSome();
-    }
+    }*/
 
     public int getGun() {
         return gun;

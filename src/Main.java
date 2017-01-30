@@ -1,102 +1,121 @@
 import javax.naming.ldap.UnsolicitedNotification;
+import javax.swing.text.html.HTMLDocument;
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class Main {
 
     static int x = 25;
 
+    private static final long ITERATION_NUMBER = 100000L;
+
     public static void main(String[] args) {
 
         Random random = new Random();
 
-        int oneUp = 2;
-        int oneDown = 1;
-
-        int nowUlitkaOn = random.nextInt(100);
-        int size = random.nextInt(100);
-
-        boolean[] month = new boolean[30];
-        for (int a = 0; a < 30; a++){
-            month[a]=random.nextBoolean();
-            if (month[a]){
-                nowUlitkaOn += oneUp;
-                if (nowUlitkaOn > size)
-                    nowUlitkaOn = size;
-            }else {
-                nowUlitkaOn -= oneDown;
-                if (nowUlitkaOn < 0)
-                    nowUlitkaOn = 0;
-            }
+        Set<Integer> set = new HashSet<Integer>();
+        for (int i = 0;i<20; i++){
+            set.add(random.nextInt(20));
         }
-        System.out.println("NOW ULITKA = " + nowUlitkaOn + " Size derevo = " + size);
-
-
-
-        int[][] array = new int[6][7];
-        for (int i = 0; i < 6; i++){
-            for (int k = 0; k < 7; k++){
-                int max = 0;
-                array[i][k] = random.nextInt(9);
-                if (array[i][0] < array[i][k]){
-                    max = array[i][k];
-                    array[i][k] = array[i][0];
-                    array[i][0] = max;
-                }
-                System.out.print(array[i][k] + " ");
-            }
-            System.out.println();
+        Iterator iterator = set.iterator();
+       while (iterator.hasNext()){
+           int k = (Integer) iterator.next();
+           if (k>10){
+               iterator.remove();
+           }
+       }
+        Iterator iterator1 = set.iterator();
+        while (iterator1.hasNext()){
+            System.out.println(iterator1.next());
         }
 
-        double wes = 25;
-        double obhs = 0;
 
-        double[] mas = new double[10];
 
-        for(int i = 0; i < 10; i++){
-            mas[i] = random.nextDouble()*10;
-            obhs=obhs+mas[i];
+     /*   Map<String, Cat> set = new HashMap<String, Cat>();
+        set.put("arbuz", new Cat("arbuz"));
+        set.put("banan", new Cat("banan"));
+        set.put("vishnya", new Cat("vishnya"));
+        set.put("grusha", new Cat("grusha"));
+        set.put("ezhevika", new Cat("ezhevika"));
+        set.put("dunya", new Cat("dunya"));
+        set.put("zhenshen", new Cat("zhenshen"));
+        set.put("iris", new Cat("iris"));
+        set.put("kartofel", new Cat("kartofel"));
+        set.put("cat", new Cat("cat"));
+
+        Set<String> setName = new HashSet<String>();
+
+        for (Map.Entry<String, Cat> me:set.entrySet()){
+            setName.add(me.getValue().getName());
+            System.out.println(me.getValue().getName());
         }
-        double result = obhs/mas.length;
-        System.out.println( "sredniy from array = " + result);
+*/
 
-        double inTheMoon = (17*wes)/100;
-        System.out.println("wes on the Moon = " + inTheMoon);
+        /*HashMap<String,String> set = new HashMap<String, String>();
 
-        Bicycle bicycle = new Bicycle();
-        Unicecle unicecle = new Unicecle();
-        Tricycle tricycle = new Tricycle();
+        set.put("arbuz", "yagoda");
+        set.put("banan", "trava");
+        set.put("vishnya", "yagoda");
+        set.put("grusha", "frukt");
+        set.put("dunya", "ovosh");
+        set.put("ezhevika", "kust");
+        set.put("zhenshen", "koren");
+        set.put("zemlyanika", "yagoda");
+        set.put("iris", "cvetok");
+        set.put("kartofel", "kluben");
 
-        Cycle[] cycles = {bicycle, unicecle, tricycle};
-        Bicycle b = (Bicycle) cycles[0];
-        Unicecle u = (Unicecle) cycles[1];
-        Tricycle t = (Tricycle) cycles[2];
-
-        b.balance();
-        u.balance();
-
-        bicycle.ride();
-        unicecle.ride();
-        tricycle.ride();
-
-        //getWheels(bicycle);
-        //getWheels(unicecle);
-        //getWheels(tricycle);
-
-        bicycle.wheels();
-        unicecle.wheels();
-        tricycle.wheels();
+        for (Map.Entry<String, String> me:set.entrySet()){
+            System.out.println(me.getKey() + " " + me.getValue());
+        }*/
 
 
-        //t.balance();
+       /* Map<String, String> map = new HashMap<String,String>();
+        String s = "string";
 
-        //  Tank t34 = new Tank("green", 2, 2, 2);
-       // t34 = null;
-        //System.gc();
+        for (int i = 0; i<map.size(); i++){
+
+            map.put(s+i, s+i);
+        }
+
+        for ( Map.Entry mapp : map.entrySet() ) {
+            System.out.println( mapp.getKey() );
+        }*/
+
+
+      /*  List<Integer> list = new LinkedList<Integer>();
+        for (int i = 0; i<20; i++) {
+            list.add(random.nextInt(100));
+        }
+        Collections.sort(list);
+       for (int i = list.size()-1; i>=list.size()-5; i--)
+           System.out.println(list.get(i));
+
+        System.out.println();
+
+        for (int i = 1; i < 6; i++)
+            System.out.println(list.get(list.size()-i));*/
+
+/*
+
+        List<Tank> tanArrayList = new ArrayList<Tank>();
+        List<Tank> tankLinkedList = new LinkedList<Tank>();
+
+        long beginTime = System.currentTimeMillis();
+        fillList(tanArrayList);
+        System.out.println("ARRAYLIST = " + (System.currentTimeMillis()-beginTime));
+
+        beginTime = System.currentTimeMillis();
+        fillList(tankLinkedList);
+        System.out.println("LINKEDLIST = " + (System.currentTimeMillis()-beginTime));
+*/
+
+
     }
 
-   // public static void getWheels(Cycle c){
-     //   c.wheels();
-    //}
+    /*private static void fillList(List list){
+        for (long i = 0; i < ITERATION_NUMBER; i++){
+            list.add(new Tank());
+        }
+    }*/
+
 }
