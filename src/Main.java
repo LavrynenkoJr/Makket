@@ -13,7 +13,35 @@ public class Main {
 
         Random random = new Random();
 
-        Set<Integer> set = new HashSet<Integer>();
+        try {
+            System.out.println(delenie("1", "0"));
+        }catch (ArithmeticException e){
+            try {
+                System.out.println("Delenie na 0");
+            }catch (Exception e2){
+                System.out.println(e2.toString());
+            }
+        }catch (NumberFormatException e){
+            //e.printStackTrace();
+            System.out.println("v stringe ne chislo");
+        }catch (Exception e){
+            System.out.println("EXEPTION");
+        }finally {
+            System.out.println("FINALLY!!!!");
+        }
+    }
+
+    public static int delenie(String a, String b) throws Exception{
+        int result = 0;
+        int one, two;
+            one = Integer.parseInt(a);
+            two = Integer.parseInt(b);
+            result = one / two;
+
+        return result;
+    }
+
+        /*Set<Integer> set = new HashSet<Integer>();
         for (int i = 0;i<20; i++){
             set.add(random.nextInt(20));
         }
@@ -27,7 +55,7 @@ public class Main {
         Iterator iterator1 = set.iterator();
         while (iterator1.hasNext()){
             System.out.println(iterator1.next());
-        }
+        }*/
 
 
 
@@ -118,4 +146,4 @@ public class Main {
         }
     }*/
 
-}
+
