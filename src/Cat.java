@@ -1,9 +1,15 @@
+import java.io.Serializable;
+
 /**
  * Created by java-1-04 on 30.01.2017.
  */
-public class Cat {
+public class Cat implements Serializable, Cloneable {
 
-    String name;
+    public String name;
+
+
+    public Cat() {
+    }
 
     public Cat(String name) {
         this.name = name;
