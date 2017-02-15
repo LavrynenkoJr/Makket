@@ -5,21 +5,21 @@ import java.io.Serializable;
  */
 public class Cat implements Serializable, Cloneable {
 
-    public String name;
+    private int name;
 
 
     public Cat() {
     }
 
-    public Cat(String name) {
+    public Cat(int name) {
         this.name = name;
     }
 
-    public String getName() {
+    public int getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(int name) {
         this.name = name;
     }
 
