@@ -6,9 +6,61 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws InterruptedException {
 
-        A a = new A();
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 10; i++) {
+                    doSmth(i);
+                }
+            }
+        });
+
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 10; i++) {
+                    synchronized (locker){
+                        System.out.println("T2 notify");
+                        locker.notify();
+                    }
+
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        t1.setName(" T1 Thread");
+        t2.setName(" T2 Thread");
+
+        t1.start();
+        t2.start();
+    }
+
+    private static Object locker = new Object();
+
+    public static void doSmth(int info) {
+        synchronized (locker) {
+            String name = Thread.currentThread().getName();
+            System.out.println("doSmth begin " + name + info);
+
+            try {
+                locker.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("doSmth end " + name + info);
+        }
+    }
+
+       /* A a = new A();
         B b = new B();
 
         Integer i = new Integer(1);
@@ -35,14 +87,11 @@ public class Main {
         List<Number> numbers = new ArrayList<Number>();
 
         inspector.inspect(numbers);
-        inspector.inspect(integers);
+        inspector.inspect(integers);*/
 
+    //}
 
-
-
-    }
-
-    static class Inspector{
+  /*  static class Inspector{
 
         public void inspect(List<? extends Number> t){
 
@@ -52,14 +101,21 @@ public class Main {
     }
 
     static class Holder<T>{
-        private T t;
+        private T[] t;
+        private int first;
+        private int second;
 
-        public Holder(T t) {
+        public Holder(T[] t, int first, int second) {
             this.t = t;
+            this.first= first;
+            this.second = second;
         }
 
-        public T getT() {
-            return t;
+        public T[] chenhge(T[] t) {
+
+            T obj;
+            obj =
+
         }
 
         public void print(){
@@ -85,7 +141,7 @@ public class Main {
             System.out.println("B.x");
         }
 
-    }
+    }*/
 
 
 
