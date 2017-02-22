@@ -1,15 +1,53 @@
-import javax.naming.ldap.UnsolicitedNotification;
-import javax.swing.text.html.HTMLDocument;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
-import java.util.*;
-
 public class Main {
+
+    public static Object locker = new Object();
 
     public static void main(String[] args) throws InterruptedException {
 
+        int[] arr = new int[1000];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = i;
+        }
 
-        Thread t1 = new Thread(new Runnable() {
+        int firstBegin = 0;
+        int secondBegin = arr.length / 4;
+        int thirdBegin = (arr.length / 4) * 2;
+        int fourBegin = (arr.length / 4) * 3;
+
+        Runnable myThread1 = new MyThread1(firstBegin, secondBegin, arr);
+        Runnable myThread2 = new MyThread1(secondBegin, thirdBegin, arr);
+        Runnable myThread3 = new MyThread1(thirdBegin, fourBegin, arr);
+        Runnable myThread4 = new MyThread1(fourBegin, arr.length, arr);
+
+
+
+        Thread thread1 = new Thread(myThread1);
+        Thread thread2 = new Thread(myThread2);
+        Thread thread3 = new Thread(myThread3);
+        Thread thread4 = new Thread(myThread4);
+
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        thread4.start();
+
+        int i = 0;
+        while (i<4){
+            synchronized (locker) {
+                locker.wait();
+                i++;
+                System.out.println("UNLOCK");
+            }
+        }
+
+
+
+        System.out.println(" AAAAAAAAAAA ");
+
+    }
+
+
+     /*   Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < 10; i++) {
@@ -58,7 +96,7 @@ public class Main {
 
             System.out.println("doSmth end " + name + info);
         }
-    }
+    }*/
 
        /* A a = new A();
         B b = new B();
