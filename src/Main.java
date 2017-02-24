@@ -1,49 +1,24 @@
+import java.util.Random;
+import java.util.Timer;
+
 public class Main {
 
     public static Object locker = new Object();
+    public static Room room = new Room();
 
     public static void main(String[] args) throws InterruptedException {
 
-        int[] arr = new int[1000];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = i;
-        }
-
-        int firstBegin = 0;
-        int secondBegin = arr.length / 4;
-        int thirdBegin = (arr.length / 4) * 2;
-        int fourBegin = (arr.length / 4) * 3;
-
-        Runnable myThread1 = new MyThread1(firstBegin, secondBegin, arr);
-        Runnable myThread2 = new MyThread1(secondBegin, thirdBegin, arr);
-        Runnable myThread3 = new MyThread1(thirdBegin, fourBegin, arr);
-        Runnable myThread4 = new MyThread1(fourBegin, arr.length, arr);
+        final Random random = new Random();
 
 
+        Timer timer = new Timer();
+        timer.schedule(new Visitor(), 0, 1000);
 
-        Thread thread1 = new Thread(myThread1);
-        Thread thread2 = new Thread(myThread2);
-        Thread thread3 = new Thread(myThread3);
-        Thread thread4 = new Thread(myThread4);
+        Timer timer2 = new Timer();
+        timer2.schedule(new Doctor(), 0, 1000);
 
-        thread1.start();
-        thread2.start();
-        thread3.start();
-        thread4.start();
-
-        int i = 0;
-        while (i<4){
-            synchronized (locker) {
-                locker.wait();
-                i++;
-                System.out.println("UNLOCK");
-            }
-        }
-
-
-
-        System.out.println(" AAAAAAAAAAA ");
-
+        Thread thread = new Thread(new MyThread1());
+        thread.start();
     }
 
 
