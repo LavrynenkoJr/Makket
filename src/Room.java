@@ -1,6 +1,4 @@
-/**
- * Created by java-1-04 on 24.02.2017.
- */
+
 public class Room {
 
     private static Object locker = new Object();
@@ -8,39 +6,61 @@ public class Room {
     private int countDoctor = 0;
     private int countVisitors = 0;
 
-    public synchronized int enterVisitor(){
+    private int maxDoctor = 1;
+    private int maxVisitor = 4;
 
-        return countVisitors++;
+    public synchronized boolean enterVisitor(){
+        synchronized (Monitoring.locker1) {
+            if (countVisitors < maxVisitor && countDoctor == 0) {
+                countVisitors++;
+
+                Monitoring.locker1.notify();
+
+                return true;
+            }
+        }
+        return false;
     }
 
     public int exitVisitor(){
-
-        return countVisitors--;
+        synchronized (Monitoring.locker1) {
+            if (countVisitors != 0) {
+                countVisitors--;
+            }
+            Monitoring.locker1.notify();
+        }
+        return countVisitors;
     }
 
-    public synchronized int enterDoctor(){
+    public synchronized boolean enterDoctor(){
+        synchronized (Monitoring.locker1) {
+            if (countDoctor < maxDoctor && countVisitors == 0) {
+                countDoctor++;
 
-        return countDoctor++;
+                Monitoring.locker1.notify();
+
+                return true;
+            }
+        }
+        return false;
     }
 
     public int exitDoctor(){
-
-        return countDoctor--;
+        synchronized (Monitoring.locker1) {
+            if (countDoctor != 0) {
+                countDoctor--;
+                Monitoring.locker1.notify();
+            }
+        }
+        return countDoctor;
     }
 
     public int getCountDoctor() {
         return countDoctor;
     }
 
-    public void setCountDoctor(int countDoctor) {
-        this.countDoctor = countDoctor;
-    }
-
     public int getCountVisitors() {
         return countVisitors;
     }
 
-    public void setCountVisitors(int countVisitors) {
-        this.countVisitors = countVisitors;
-    }
 }

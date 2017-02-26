@@ -1,26 +1,26 @@
 import java.util.Random;
 import java.util.TimerTask;
 
-/**
- * Created by java-1-04 on 24.02.2017.
- */
-public class Doctor extends TimerTask {
-    Random random = new Random();
+public class Doctor extends Thread {
 
-    int veroyatnost = 4;
+    private int timeDoctorInRoom = 5000;
+
+    private Room room;
+
+    public Doctor(Room room) {
+        this.room = room;
+        //System.out.println("Created Doctor");
+    }
 
     @Override
     public void run() {
-        if (veroyatnost == random.nextInt(5)){
-            synchronized (Main.locker) {
-                Main.room.enterDoctor();
-                try {
-                    Main.locker.wait(10000);
-                    Main.room.exitDoctor();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        if (room.enterDoctor()) {
+            try {
+                Thread.sleep(timeDoctorInRoom);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            room.exitDoctor();
         }
     }
 }

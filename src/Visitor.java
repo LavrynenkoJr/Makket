@@ -1,26 +1,26 @@
 import java.util.Random;
 import java.util.TimerTask;
 
-/**
- * Created by java-1-04 on 24.02.2017.
- */
-public class Visitor extends TimerTask{
+public class Visitor extends Thread{
 
-    Random random = new Random();
+    private int timeVisitorInRoom = 3000;
+
+    private Room room;
+
+    public Visitor(Room room) {
+        //System.out.println("Created Visitor");
+        this.room = room;
+    }
 
     @Override
     public void run() {
-
-        if (random.nextBoolean()){
-            synchronized (Main.locker) {
-                Main.room.enterVisitor();
-                try {
-                    Main.locker.wait(5000);
-                    Main.room.exitVisitor();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        if (room.enterVisitor()) {
+            try {
+                Thread.sleep(timeVisitorInRoom);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            room.exitVisitor();
         }
     }
 }
