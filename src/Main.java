@@ -1,57 +1,66 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Main {
 
-    static int timeInMilisecond = 1000;
+    private static final int PROBABILITY_DOCTOR = 2;
+    private static final int PROBABILITY_VISITOR = 5;
 
-    static int verDoctor = 4;
-    static int posDoctor = 5;
-
-    static Room room;
-
+    private static Random random;
 
     public static void main(String[] args) throws InterruptedException {
 
-        final Random random = new Random();
-        room = new Room();
+        // создаем комнаты с указанием № комнаты и вместительностью докторов и посетителей
+        Room room1 = new Room( 1,1, 4);
+        Room room2 = new Room(2,3, 5);
+        Room room3 = new Room (3,1, 6);
+        Room room4 = new Room (4,5, 6);
+        Room room5 = new Room (5,1, 6);
+        List<Room> roomList = new ArrayList<Room>();
+        roomList.add(room1);
+        roomList.add(room2);
+        roomList.add(room3);
+        roomList.add(room4);
+        roomList.add(room5);
 
-        Thread monitoring = new Monitoring(room);
-        monitoring.start();
+        Monitoring monitoring = new Monitoring(roomList);
 
-        Thread possibilityVisitor = new Thread(new Runnable() {
+        random = new Random();
+
+        for (int i = 0; i < roomList.size(); i++) {
+            randomiser(roomList.get(i));
+        }
+    }
+
+    public static void randomiser(Room room){
+
+        final Room innerRoom = room;
+
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if (random.nextBoolean()){
-                    Thread visitor = new Visitor(room);
-                    visitor.start();
+
+
+                while (true){
+
+                    if (random.nextInt() < PROBABILITY_VISITOR){
+                        Thread visitor = new Visitor(innerRoom);
+                        visitor.start();
+                    }
+                    if (random.nextInt() < PROBABILITY_DOCTOR){
+                        Thread doctor = new Doctor(innerRoom);
+                        doctor.start();
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                try {
-                    Thread.sleep(timeInMilisecond);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                run();
             }
         });
-        possibilityVisitor.start();
-
-        Thread possibilityDoctor = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if ( verDoctor == random.nextInt(posDoctor) ){
-                    Thread doctor = new Doctor(room);
-                    doctor.start();
-                }
-                try {
-                    Thread.sleep(timeInMilisecond);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                run();
-            }
-        });
-        possibilityDoctor.start();
-
+        thread.start();
 
     }
 }

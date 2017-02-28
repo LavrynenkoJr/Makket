@@ -1,56 +1,60 @@
+import java.util.Observable;
 
-public class Room {
+public class Room extends Observable {
 
-    private static Object locker = new Object();
+    private int id;
 
-    private int countDoctor = 0;
-    private int countVisitors = 0;
+    private int countDoctor;
+    private int countVisitors;
 
-    private int maxDoctor = 1;
-    private int maxVisitor = 4;
+    private int maxDoctor;
+    private int maxVisitor;
+
+    public Room(int id, int maxDoctor, int maxVisitor) {
+        this.id = id;
+        this.maxDoctor = maxDoctor;
+        this.maxVisitor = maxVisitor;
+    }
+
+    public synchronized void notifyDisplay() {
+        setChanged();
+        notifyObservers();
+    }
 
     public synchronized boolean enterVisitor(){
-        synchronized (Monitoring.locker1) {
-            if (countVisitors < maxVisitor && countDoctor == 0) {
-                countVisitors++;
 
-                Monitoring.locker1.notify();
-
-                return true;
-            }
+        if (countVisitors < maxVisitor && countDoctor == 0) {
+            countVisitors++;
+            notifyDisplay();
+            return true;
         }
         return false;
     }
 
-    public int exitVisitor(){
-        synchronized (Monitoring.locker1) {
-            if (countVisitors != 0) {
-                countVisitors--;
-            }
-            Monitoring.locker1.notify();
+    public synchronized int exitVisitor(){
+
+        if (countVisitors != 0) {
+            countVisitors--;
+            notifyDisplay();
         }
         return countVisitors;
     }
 
     public synchronized boolean enterDoctor(){
-        synchronized (Monitoring.locker1) {
-            if (countDoctor < maxDoctor && countVisitors == 0) {
-                countDoctor++;
 
-                Monitoring.locker1.notify();
-
-                return true;
-            }
+        if (countDoctor < maxDoctor && countVisitors == 0) {
+            countDoctor++;
+            notifyDisplay();
+            return true;
         }
         return false;
     }
 
-    public int exitDoctor(){
-        synchronized (Monitoring.locker1) {
-            if (countDoctor != 0) {
-                countDoctor--;
-                Monitoring.locker1.notify();
-            }
+    public synchronized int exitDoctor(){
+
+        if (countDoctor != 0) {
+            countDoctor--;
+            notifyDisplay();
         }
         return countDoctor;
     }
@@ -63,4 +67,13 @@ public class Room {
         return countVisitors;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        String s = "| Room Id = " + id + " Doctors = " + countDoctor + " Visitors = " + countVisitors + " | ";
+        return s;
+    }
 }

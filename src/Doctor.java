@@ -1,5 +1,4 @@
-import java.util.Random;
-import java.util.TimerTask;
+
 
 public class Doctor extends Thread {
 
@@ -9,7 +8,6 @@ public class Doctor extends Thread {
 
     public Doctor(Room room) {
         this.room = room;
-        //System.out.println("Created Doctor");
     }
 
     @Override

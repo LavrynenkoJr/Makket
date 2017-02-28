@@ -1,29 +1,27 @@
-import java.io.Console;
-import java.io.IOException;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Monitoring extends Thread {
-    public static final Object locker1 = new Object();
-    private Room room;
+public class Monitoring implements Observer {
 
-    public Monitoring(Room room) {
-        this.room = room;
+    private List<Room> roomList;
+
+    public Monitoring(List<Room> roomList) {
+        this.roomList = roomList;
+        for (int i = 0; i < roomList.size(); i++){
+            roomList.get(i).addObserver(this);
+        }
     }
 
     @Override
-    public void run() {
-        synchronized (locker1) {
-            try {
+    public void update(Observable o, Object arg) {
 
-                String s = "Doctor = " + room.getCountDoctor() + " Visitors = " + room.getCountVisitors();
-                System.out.print("\r" + s);
-                System.out.flush();
+        String s = "";
+        for (int i = 0; i<roomList.size(); i++){
 
-                locker1.wait();
+            s += roomList.get(i).toString();
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
-        run();
+        System.out.print("\r" + s);
     }
 }

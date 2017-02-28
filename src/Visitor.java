@@ -8,7 +8,6 @@ public class Visitor extends Thread{
     private Room room;
 
     public Visitor(Room room) {
-        //System.out.println("Created Visitor");
         this.room = room;
     }
 
